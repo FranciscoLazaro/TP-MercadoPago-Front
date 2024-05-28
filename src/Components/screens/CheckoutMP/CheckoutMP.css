@@ -1,0 +1,12 @@
+.divVisible {
+    display: block;
+    width: fit-content; 
+  max-width: 300px; 
+  margin: 0 auto; 
+  }
+  
+  .divInvisible {
+    display: none;
+  }
+  
+  
