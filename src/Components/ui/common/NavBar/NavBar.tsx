@@ -7,13 +7,10 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Instrumento from '../../../../types/Instrumento';
 
-interface NavbarProps {
-  carrito: Instrumento[];
-}
 
-const Navbar: React.FC<NavbarProps> = ({ carrito }) => {
+
+const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCartClick = () => {

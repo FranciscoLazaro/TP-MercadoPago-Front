@@ -1,22 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import UsuarioService from '../../../service/UsuarioService';
+import Swal from 'sweetalert2';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const usuarioService = new UsuarioService();
+  const url = import.meta.env.VITE_API_URL;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí se validan los datos en la base de datos
-    const isValid = true; // Esto debería ser el resultado de la validación real
-
-    if (isValid) {
-      // Redirigir a la página de usuario normal
-      console.log('Inicio de sesión como usuario normal');
+    
+    // Autenticar al usuario
+    const isAuthenticated = await usuarioService.isAuthenticated(username, password, url);
+    if (isAuthenticated) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Inicio de sesión exitoso',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
+      navigate('/');
     } else {
-      console.log('Credenciales incorrectas');
+      Swal.fire({
+        icon: 'error',
+        title: 'Credenciales incorrectas',
+        text: 'Por favor, intente de nuevo.',
+      });
     }
   };
 

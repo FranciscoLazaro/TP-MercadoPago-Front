@@ -19,7 +19,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Navbar carrito={carrito} />
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Home handleAddToCart={handleAddToCart} />} />
         <Route path="/categorias" element={<Categoria />} />
