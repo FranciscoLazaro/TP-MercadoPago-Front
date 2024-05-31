@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Instrumento from '../../../../types/Instrumento';
 
 interface NavbarProps {
@@ -17,6 +18,10 @@ const Navbar: React.FC<NavbarProps> = ({ carrito }) => {
 
   const handleCartClick = () => {
     navigate('/carrito');
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
   };
 
   return (
@@ -40,6 +45,13 @@ const Navbar: React.FC<NavbarProps> = ({ carrito }) => {
           color="inherit"
         >
           <ShoppingCartIcon />
+        </IconButton>
+        <IconButton
+          aria-label="Iniciar Sesión"
+          onClick={handleLoginClick}
+          color="inherit"
+        >
+          <AccountCircleIcon />
         </IconButton>
       </Toolbar>
     </AppBar>
