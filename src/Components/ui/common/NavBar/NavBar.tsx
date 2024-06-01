@@ -15,6 +15,11 @@ const Navbar: React.FC = () => {
   const { isAuthenticated, userRole, userName, logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  // Debugging logs
+  console.log("isAuthenticated:", isAuthenticated);
+  console.log("userRole:", userRole);
+  console.log("userName:", userName);
+
   const handleCartClick = () => {
     navigate('/carrito');
   };

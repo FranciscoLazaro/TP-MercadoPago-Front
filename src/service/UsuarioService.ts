@@ -3,7 +3,7 @@ import BackendClient from "./BackendClient";
 
 export default class UsuarioService extends BackendClient<Usuario> {
 
-    async isAuthenticated(username: string, password: string, url: string): Promise<boolean> {
+    async isAuthenticated(username: string, password: string, url: string): Promise<{ isAuthenticated: boolean, role?: string }> {
         try {
             // Realizar la solicitud GET al endpoint de existencia de usuario por nombre y clave
             const response = await fetch(`${url}/Usuario/existByNameClave?nombre=${username}&clave=${password}`);
@@ -11,15 +11,21 @@ export default class UsuarioService extends BackendClient<Usuario> {
             // Verificar si la solicitud fue exitosa
             if (!response.ok) {
                 console.error("Error al autenticar usuario:", response.statusText);
-                return false;
+                return { isAuthenticated: false };
             }
 
-            // Si la respuesta tiene un cuerpo (datos de usuario), entonces las credenciales son válidas
-            const data = await response.text();
-            return data !== ''; // Si el cuerpo no está vacío, significa que las credenciales son válidas
+            // Parsear la respuesta como JSON
+            const data = await response.json();
+
+            // Verificar si los datos de usuario existen y devolver el rol si es así
+            if (data && data.rol) {
+                return { isAuthenticated: true, role: data.rol };
+            } else {
+                return { isAuthenticated: false };
+            }
         } catch (error) {
             console.error("Error al autenticar usuario:", error);
-            return false;
+            return { isAuthenticated: false };
         }
     }
 }

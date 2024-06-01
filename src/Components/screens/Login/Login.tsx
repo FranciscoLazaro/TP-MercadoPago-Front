@@ -3,26 +3,31 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import UsuarioService from '../../../service/UsuarioService';
 import Swal from 'sweetalert2';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const usuarioService = new UsuarioService();
+  const { login } = useAuth();
   const url = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Autenticar al usuario
-    const isAuthenticated = await usuarioService.isAuthenticated(username, password, url);
-    if (isAuthenticated) {
+    const { isAuthenticated, role } = await usuarioService.isAuthenticated(username, password, url);
+    if (isAuthenticated && role) {
+      login(username, role);
+
       Swal.fire({
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         showConfirmButton: false,
         timer: 1500
       });
+
       // Redirigir al usuario a la página de inicio después del inicio de sesión exitoso
       navigate('/');
     } else {
